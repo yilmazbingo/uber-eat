@@ -37,9 +37,9 @@ export const AuthenticationContextProvider = ({
         setUser(user);
         setIsLoading(false);
       })
-      .catch((e) => {
+      .catch((error) => {
         setIsLoading(false);
-        setError(e.message);
+        setError(error);
       });
   };
   return (
@@ -50,6 +50,8 @@ export const AuthenticationContextProvider = ({
         error,
         onLogin,
       }}
-    ></AuthenticationContext.Provider>
+    >
+      {children}
+    </AuthenticationContext.Provider>
   );
 };
