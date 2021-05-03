@@ -2,11 +2,16 @@ import React, { useState, createContext, ReactElement } from "react";
 import * as firebase from "firebase";
 import { loginRequest } from "./authentication.service";
 
-type FavoritesContext = {
+type AuthenticationContext = {
   user: firebase.auth.UserCredential | null;
   error: any;
   isLoading: boolean;
   onLogin: (email: string, password: string) => void;
+  onRegister: (
+    email: string,
+    password: string,
+    repeatedPassword: string
+  ) => void;
 };
 
 const defaultState = {
@@ -14,8 +19,10 @@ const defaultState = {
   error: null,
   isLoading: false,
   onLogin: (email: string, password: string) => null,
+  onRegister: (email: string, password: string, repeatedPassword: string) =>
+    null,
 };
-export const AuthenticationContext = createContext<FavoritesContext>(
+export const AuthenticationContext = createContext<AuthenticationContext>(
   defaultState
 );
 
@@ -42,6 +49,28 @@ export const AuthenticationContextProvider = ({
         setError(error);
       });
   };
+
+  const onRegister = (
+    email: string,
+    password: string,
+    repeatedPassword: string
+  ) => {
+    if (password !== repeatedPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((user) => {
+        setUser(user);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        setError(error.message);
+      });
+  };
   return (
     <AuthenticationContext.Provider
       value={{
@@ -49,6 +78,7 @@ export const AuthenticationContextProvider = ({
         isLoading,
         error,
         onLogin,
+        onRegister,
       }}
     >
       {children}
