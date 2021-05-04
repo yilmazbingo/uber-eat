@@ -1,15 +1,12 @@
 import React, { useContext, useState } from "react";
-import {
-  FlatList,
-  SafeAreaView,
-  StatusBar,
-  TouchableOpacity,
-} from "react-native";
+import { SafeAreaView, StatusBar, TouchableOpacity } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import styled from "styled-components/native";
 import { RestaurantInfo } from "@components/restaurant-info/restaurantInfo";
+import { FadeInView } from "@components/animations/fade.animation";
 import { Spacer } from "@components/spacer";
 import { Search } from "@components/search";
+import { RestaurantList } from "@components/restaurant-info/restatuant-list.styles";
 import { RestaurantsContext } from "../services/restaurant/restaurant.context";
 import { FavouritesContext } from "@services/favourites/favourites.context";
 import { FavouritesBar } from "@components/favorites/favourites-bar";
@@ -22,10 +19,6 @@ const SafeArea = styled(SafeAreaView)`
   ${StatusBar.currentHeight && `margin-top:${StatusBar.currentHeight}px`};
   background-color: blue;
 `;
-
-const RestaurantList = styled(FlatList).attrs({
-  contentContainerStyle: { padding: 16 },
-})``;
 
 const Loading = styled(ActivityIndicator)`
   margin-left: -25px;
@@ -71,7 +64,9 @@ export const RestaurantsScreen = ({ navigation }: RestaurantScreenProps) => {
             }
           >
             <Spacer position="bottom" size="large">
-              <RestaurantInfo restaurant={item} />
+              <FadeInView>
+                <RestaurantInfo restaurant={item} />
+              </FadeInView>
             </Spacer>
           </TouchableOpacity>
         )}
