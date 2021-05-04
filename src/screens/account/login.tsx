@@ -48,7 +48,7 @@ export const LoginScreen = ({ navigation }) => {
             <Text variant="error">{error.message}</Text>
           </ErrorContainer>
         )}
-        {isLoaing ? (
+        {isLoading ? (
           <ActivityIndicator color={Colors.blue300} animating={true} />
         ) : (
           <Spacer size="large">
