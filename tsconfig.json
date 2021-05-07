@@ -6,6 +6,7 @@
     "moduleResolution": "node",
     "noEmit": true,
     "skipLibCheck": true,
+    "typeRoots": ["node_modules/@types"],
     "resolveJsonModule": true,
     "strict": true,
     "baseUrl": ".",

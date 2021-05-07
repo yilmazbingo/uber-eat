@@ -12,3 +12,5 @@ notes
 # macOS
 .DS_Store
 config.ts
+*/node_modules/**/*
+src/utils/env.ts

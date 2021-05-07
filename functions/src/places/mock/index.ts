@@ -1,7 +1,7 @@
-import antwerp from "./antwerp.json";
-import chicago from "./chicago.json";
-import toronto from "./toronto.json";
-import san_francisco from "./san_francisco.json";
+import { antwerp } from "./antwerp";
+import { chicago } from "./chicago";
+import { toronto } from "./toronto";
+import { san_francisco } from "./san_francisco";
 
 export const mocks = {
   "51.219448,4.402464": antwerp,
@@ -19,3 +19,10 @@ export const mockImages = [
   "https://www.foodiesfeed.com/wp-content/uploads/2019/02/messy-pizza-on-a-black-table-600x400.jpg",
   "https://www.foodiesfeed.com/wp-content/uploads/2019/02/pizza-ready-for-baking-600x400.jpg",
 ];
+
+export const addMockImage = (restaurant: any) => {
+  const randomImage =
+    mockImages[Math.ceil(Math.random() * (mockImages.length - 1))];
+  restaurant.photos = [randomImage];
+  return restaurant;
+};
