@@ -14,3 +14,4 @@ notes
 config.ts
 */node_modules/**/*
 src/utils/env.ts
+.runtimeconfig.json
