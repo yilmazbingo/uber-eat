@@ -3,7 +3,8 @@ import * as firebase from "firebase";
 import { loginRequest } from "./authentication.service";
 
 type AuthenticationContext = {
-  user: firebase.auth.UserCredential | null;
+  isAuthenticated: boolean;
+  user: firebase.User | null;
   error: any;
   isLoading: boolean;
   onLogin: (email: string, password: string) => void;
@@ -16,6 +17,7 @@ type AuthenticationContext = {
 };
 
 const defaultState = {
+  isAuthenticated: false,
   user: null,
   error: null,
   isLoading: false,
@@ -34,9 +36,7 @@ export const AuthenticationContextProvider = ({
   children,
 }: AuthenticationContextProviderProps): ReactElement => {
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState<
-    firebase.auth.UserCredential | null | firebase.User
-  >(null);
+  const [user, setUser] = useState<firebase.User | null>(null);
   const [error, setError] = useState<any>(null);
 
   firebase.auth().onAuthStateChanged((user) => {
@@ -78,7 +78,7 @@ export const AuthenticationContextProvider = ({
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((user) => {
-        setUser(user);
+        setUser(user.user);
         setIsLoading(false);
       })
       .catch((error) => {

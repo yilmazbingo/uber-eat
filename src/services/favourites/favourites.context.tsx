@@ -1,6 +1,13 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  ReactElement,
+} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthenticationContext } from "../authentication/authentication.context";
+import { IRestaurant } from "../../types/interfaces";
 
 const defaultState = {
   favourites: [],
@@ -9,16 +16,20 @@ const defaultState = {
 };
 
 type FavouritesContext = {
-  favourites: any[];
-  addToFavourites: (restaurant: any) => void;
-  removeFromFavourites: (restaurant: any) => void;
+  favourites: IRestaurant[];
+  addToFavourites: (restaurant: IRestaurant) => void;
+  removeFromFavourites: (restaurant: IRestaurant) => void;
 };
 export const FavouritesContext = createContext<FavouritesContext>(defaultState);
 
-export const FavouritesContextProvider = ({ children }) => {
+export const FavouritesContextProvider = ({
+  children,
+}: {
+  children: ReactElement;
+}) => {
   const { user } = useContext(AuthenticationContext);
 
-  const [favourites, setFavorites] = useState([]);
+  const [favourites, setFavorites] = useState<IRestaurant[] | []>([]);
 
   const saveFavourites = async (value: any, uid: string) => {
     try {
@@ -39,14 +50,15 @@ export const FavouritesContextProvider = ({ children }) => {
       console.log("error loading", e.message);
     }
   };
-  const add = (restaurant) => {
+  const add = (restaurant: IRestaurant) => {
     setFavorites([...favourites, restaurant]);
   };
 
-  const remove = (restaurant) => {
-    const newFavourites = favourites.filter(
-      (r) => r.placeId !== restaurant.placeId
-    );
+  const remove = (restaurant: IRestaurant) => {
+    const newFavourites = favourites.filter((r) => {
+      console.log("rrrrr", r);
+      return r.placeId !== restaurant.placeId;
+    });
     setFavorites(newFavourites);
   };
 

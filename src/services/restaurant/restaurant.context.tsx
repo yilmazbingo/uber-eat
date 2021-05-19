@@ -24,6 +24,7 @@ export const RestaurantsContextProvider = ({ children }): ReactElement => {
     restaurantsRequest(loc)
       .then(restaurantsTransform)
       .then((results) => {
+        setError(null);
         setIsLoading(false);
         setRestaurants(results);
       })

@@ -13,7 +13,7 @@ export interface IRestaurant {
   name: string;
   opening_hours: { open_now: boolean };
   photos: string[];
-  place_id: string;
+  placeId: string;
   rating: number;
   reference: string;
   types: string[];

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styled from "styled-components/native";
@@ -26,9 +26,11 @@ export const SettingsScreen = ({ navigation }) => {
   };
 
   // it only triggers every time the screen is back into focus. Any time we go back and forth between screens, this will be triggered as well as when the user changes
-  useFocusEffect(() => {
-    getProfilePicture(user);
-  }, [user]);
+  useFocusEffect(
+    useCallback(() => {
+      getProfilePicture(user);
+    }, [user])
+  );
   return (
     <SafeArea>
       <TouchableOpacity onPress={() => navigation.navigate("Camera")}>

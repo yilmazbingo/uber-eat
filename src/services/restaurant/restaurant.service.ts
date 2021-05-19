@@ -1,15 +1,17 @@
 import { mocks, mockImages } from "../../../functions/src/places/mock";
 import camelize from "camelize";
 // import { host } from "@utils/env";
-import { host } from "../../utils/env";
+import { host, isMock } from "../../utils/env";
 import { IRestaurant } from "../../types/interfaces";
 
 export const restaurantsRequest = (location: string) => {
   // console.log("location", typeof location);
-  return fetch(`${host}/placesNearby?location=${location}`).then((res) => {
-    // console.log(res);
-    return res.json();
-  });
+  return fetch(`${host}/placesNearby?location=${location}&mock=${isMock}`).then(
+    (res) => {
+      // console.log(res);
+      return res.json();
+    }
+  );
 };
 
 export const restaurantsTransform = ({

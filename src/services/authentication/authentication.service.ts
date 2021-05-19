@@ -5,3 +5,4 @@ export const loginRequest = (
   password: string
 ): Promise<firebase.auth.UserCredential> =>
   firebase.auth().signInWithEmailAndPassword(email, password);
+// .catch((error) => console.log(error.message));

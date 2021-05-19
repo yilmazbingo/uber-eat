@@ -1,12 +1,12 @@
 import camelize from "camelize";
 
 // import { host } from "@utils/env";
-import { host } from "../../utils/env";
+import { host, isMock } from "../../utils/env";
 import { IPlace } from "../../types/interfaces";
 
 export const locationRequest = (searchTerm: string) => {
   console.log("search term", searchTerm);
-  return fetch(`${host}/geocode?city=${searchTerm}`)
+  return fetch(`${host}/geocode?city=${searchTerm}$mock=${isMock}`)
     .then((response) => {
       // console.log("res in localtin", response);
       return response.json();
