@@ -14,6 +14,8 @@ import { FavouritesContext } from "@services/favourites/favourites.context";
 import { FavouritesBar } from "@components/favorites/favourites-bar";
 import { ActivityIndicator, Colors } from "react-native-paper";
 import { StackNavigatorParams } from "@infrastructure/navigation/restaurants.navigator";
+import { IRestaurant } from "../types/interfaces";
+
 //Statusbar.currentHeight is supported only in android. so in ios i get error
 // JSON value 'px' of type NSstring cannot be converted of a ABI40.
 const SafeArea = styled(SafeAreaView)`
@@ -86,7 +88,8 @@ export const RestaurantsScreen = ({ navigation }: RestaurantScreenProps) => {
               </TouchableOpacity>
             );
           }}
-          keyExtractor={(item: { name: number }) => String(item.name)}
+          // keyExtractor={(item: { name: number }) => String(item.name)}
+          keyExtractor={(item, index) => index.toString()}
         />
       )}
     </SafeArea>

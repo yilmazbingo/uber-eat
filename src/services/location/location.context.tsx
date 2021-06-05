@@ -1,11 +1,40 @@
-import React, { useState, createContext, useEffect } from "react";
+import React, { useState, createContext, useEffect, ReactNode } from "react";
 import { locationRequest, locationTransform } from "./location.service";
 
-export const LocationContext = createContext();
+const defaultState = {
+  isLoading: false,
+  error: null,
+  location: null,
+  search: (searchKeyword: string) => undefined,
+  keyword: "",
+};
 
-export const LocationContextProvider = ({ children }) => {
-  const [keyword, setKeyword] = useState("san francisco");
-  const [location, setLocation] = useState(null);
+interface Location {
+  lat: number;
+  lng: number;
+  viewport: {
+    northeast: { lat: number; lng: number };
+    southwest: { lat: number; lng: number };
+  };
+}
+
+type LocationContext = {
+  isLoading: boolean;
+  error: any;
+  location: Location | null;
+  search: (searchKeyword: string) => void;
+  keyword: string;
+};
+
+export const LocationContext = createContext<LocationContext>(defaultState);
+
+export const LocationContextProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
+  const [keyword, setKeyword] = useState("istanbul");
+  const [location, setLocation] = useState<Location | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -29,7 +58,7 @@ export const LocationContextProvider = ({ children }) => {
       .catch((err) => {
         setIsLoading(false);
         setError(err);
-        console.log("errr", err);
+        console.log("err in location request", err);
       });
   }, [keyword]);
 

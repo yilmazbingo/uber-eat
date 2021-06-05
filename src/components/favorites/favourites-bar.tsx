@@ -11,6 +11,7 @@ const FavouritesWrapper = styled.View`
 type FavouritesBarProps = {
   favourites: any[];
   onNavigate(): void;
+  // navigation: StackNavigationProp<StackNavigatorParams, "Restaurants">;
 };
 export const FavouritesBar = ({
   favourites,

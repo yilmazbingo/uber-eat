@@ -3,22 +3,42 @@ import React, {
   useState,
   createContext,
   useEffect,
-  useMemo,
   ReactElement,
   useContext,
   ReactNode,
 } from "react";
 import { restaurantsRequest, restaurantsTransform } from "./restaurant.service";
+import { IRestaurant } from "../../types/interfaces";
+import { Coordinates } from "./restaurant.service";
+import { locationTransform } from "@services/location/location.service";
 
-export const RestaurantsContext = createContext<null>(null);
+const defaultState = {
+  restaurants: [],
+  isLoading: false,
+  error: null,
+};
+type RestaurantContext = {
+  restaurants: IRestaurant[];
+  isLoading: boolean;
+  error: any;
+};
 
-export const RestaurantsContextProvider = ({ children }): ReactElement => {
+export const RestaurantsContext =
+  createContext<RestaurantContext>(defaultState);
+
+export const RestaurantsContextProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}): ReactElement => {
   const [restaurants, setRestaurants] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const { location } = useContext(LocationContext);
 
-  const retrieveRestaurants = (loc) => {
+  // stringifying lat and long
+  const retrieveRestaurants = (loc: string) => {
+    console.log(typeof loc);
     setIsLoading(true);
     setRestaurants([]);
     restaurantsRequest(loc)
@@ -30,17 +50,11 @@ export const RestaurantsContextProvider = ({ children }): ReactElement => {
       })
       .catch((err) => {
         setIsLoading(false);
+        console.log("err in restarurant context", err);
         setError(err);
       });
   };
 
-  // useEffect(() => {
-  //   if (location) {
-  //     const locationString = `${location.lat},${location.lng}`;
-  //     console.log("location.lat000000000000000000000", location.lat);
-  //     retrieveRestaurants(locationString);
-  //   }
-  // }, [location]);
   useEffect(() => {
     if (location) {
       const locationString = `${location.lat},${location.lng}`;

@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text } from "react-native";
 import LottieView from "lottie-react-native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { Spacer } from "@components/spacer";
 import {
   AccountBackground,
@@ -10,8 +10,13 @@ import {
   Title,
   AnimationWrapper,
 } from "@components/account/account.styles";
+import { StackNavigatorParams } from "@infrastructure/navigation/account.navigator";
 
-export const AccountScreen = ({ navigation }) => {
+type AccountScreenProps = {
+  navigation: StackNavigationProp<StackNavigatorParams>;
+};
+
+export const AccountScreen = ({ navigation }: AccountScreenProps) => {
   return (
     <AccountBackground>
       <AccountCover />

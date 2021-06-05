@@ -1,5 +1,5 @@
-node_modules/**/*
-.expo/*
+node_modules/
+.expo/
 npm-debug.*
 *.jks
 *.p8
@@ -8,10 +8,6 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-notes
+
 # macOS
 .DS_Store
-config.ts
-*/node_modules/**/*
-src/utils/env.ts
-.runtimeconfig.json

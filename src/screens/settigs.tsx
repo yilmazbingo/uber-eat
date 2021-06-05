@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
+import * as firebase from "firebase";
 import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styled from "styled-components/native";
@@ -9,6 +10,9 @@ import { SafeArea } from "@components/safe-area";
 import { Navigation } from "@infrastructure/navigation";
 import { Text } from "@components/text";
 import { Spacer } from "@components/spacer";
+import { StackNavigationProp } from "@react-navigation/stack";
+
+import { StackNavigatorParams } from "@infrastructure/navigation/account.navigator";
 
 const SettingsItem = styled(List.Item)`
   padding: ${(props) => props.theme.space[3]};
@@ -17,10 +21,15 @@ const AvatarContainer = styled.View`
   align-items: center;
 `;
 
-export const SettingsScreen = ({ navigation }) => {
+type SettingsProps = {
+  navigation: StackNavigationProp<StackNavigatorParams, "Logout">;
+};
+
+export const SettingsScreen = ({ navigation }: SettingsProps) => {
   const { onLogout, user } = useContext(AuthenticationContext);
   const [photo, setPhoto] = useState<string | null>(null);
-  const getProfilePicture = async (currentUser) => {
+  const getProfilePicture = async (currentUser: firebase.User) => {
+    console.log("Currentuser", currentUser);
     const photoUri = await AsyncStorage.getItem(`${currentUser?.uid}-photo`);
     setPhoto(photoUri);
   };
@@ -28,7 +37,9 @@ export const SettingsScreen = ({ navigation }) => {
   // it only triggers every time the screen is back into focus. Any time we go back and forth between screens, this will be triggered as well as when the user changes
   useFocusEffect(
     useCallback(() => {
-      getProfilePicture(user);
+      if (user) {
+        getProfilePicture(user);
+      }
     }, [user])
   );
   return (
@@ -36,16 +47,18 @@ export const SettingsScreen = ({ navigation }) => {
       <TouchableOpacity onPress={() => navigation.navigate("Camera")}>
         <AvatarContainer>
           {!photo ? (
+            // @ts-ignore
             <Avatar.Icon size={180} icon="human" backgroundColor="#2182BD" />
           ) : (
             <Avatar.Image
               size={180}
               source={{ uri: photo }}
+              // @ts-ignore
               backgroundColor="#2182BD"
             />
           )}
           <Spacer position="top" size="large">
-            <Text variant="label"> {user.email} </Text>
+            <Text variant="label"> {user?.email} </Text>
           </Spacer>
         </AvatarContainer>
       </TouchableOpacity>

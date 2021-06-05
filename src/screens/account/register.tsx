@@ -1,5 +1,7 @@
 import React, { useState, useContext } from "react";
 import { ActivityIndicator, Colors } from "react-native-paper";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { StackNavigatorParams } from "@infrastructure/navigation/account.navigator";
 import {
   AccountBackground,
   AccountCover,
@@ -13,7 +15,11 @@ import { Spacer } from "@components/spacer";
 import { AuthenticationContext } from "@services/authentication/authentication.context";
 import { Text } from "@components/text";
 
-export const RegisterScreen = ({ navigation }) => {
+type RegisterScreenProps = {
+  navigation: StackNavigationProp<StackNavigatorParams, "Register">;
+};
+
+export const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [repeatedPassword, setRepeatedPassword] = useState<string>("");
@@ -54,13 +60,12 @@ export const RegisterScreen = ({ navigation }) => {
           />
         </Spacer>
 
-        <Spacer />
         {error && error.message ? (
-          <ErrorContainer size="large">
+          <ErrorContainer>
             <Text variant="error">{error.message}</Text>
           </ErrorContainer>
         ) : (
-          <ErrorContainer size="large">
+          <ErrorContainer>
             <Text variant="error">{error}</Text>
           </ErrorContainer>
         )}

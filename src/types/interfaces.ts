@@ -43,3 +43,12 @@ export interface IPlace {
   results: IPlaceResult[];
   status: string;
 }
+
+// export interface User {
+//   apiKey: string;
+//   email: string;
+//   uid: string;
+//   refreshToken: string;
+//   accessToken: string;
+//   emailVerified: boolean;
+// }

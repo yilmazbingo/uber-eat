@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { ScrollView } from "react-native";
 import { List } from "react-native-paper";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { Text } from "@components/text";
 import { Spacer } from "@components/spacer";
 import { CreditCardInput } from "@components/creditCardInput";
@@ -11,14 +12,50 @@ import {
   NameInput,
   PayButton,
   ClearButton,
+  PaymentProcessing,
 } from "@components/checkout.styles";
 import { CartContext } from "@services/cart/cart.context";
 import { RestaurantInfo } from "@components/restaurant-info/restaurantInfo";
+import { payRequest, ICard } from "@services/checkout/checkout.service";
+import { StackNavigatorParams } from "@infrastructure/navigation/checkout.navigator";
 
-export const CheckoutScreen = () => {
+type CheckoutScreenProps = {
+  navigation: StackNavigationProp<
+    StackNavigatorParams,
+    "CheckoutSuccess" | "CheckoutError"
+  >;
+};
+
+export const CheckoutScreen = ({ navigation }: CheckoutScreenProps) => {
   const { cart, restaurant, sum, clearCart } = useContext(CartContext);
   // i could not use "" because text has to be inside Text
-  const [name, setName] = useState<string | null>(null);
+  const [name, setName] = useState("");
+  const [card, setCard] = useState<ICard | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const onPay = () => {
+    setIsLoading(true);
+    if (!card || !card.id) {
+      setIsLoading(false);
+      navigation.navigate("CheckoutError", {
+        error: "Please fill in a valid credit card",
+      });
+      return;
+    }
+    payRequest(card.id, sum, name)
+      .then((result) => {
+        // console.log("Cardddd", card);
+        // console.log("resulttttt", result);
+        setIsLoading(false);
+        clearCart();
+        navigation.navigate("CheckoutSuccess");
+      })
+      .catch((error: any) => {
+        setIsLoading(false);
+        navigation.navigate("CheckoutError", {
+          error: error.message,
+        });
+      });
+  };
 
   if (!cart.length || !restaurant) {
     return (
@@ -33,6 +70,7 @@ export const CheckoutScreen = () => {
 
   return (
     <SafeArea>
+      {isLoading && <PaymentProcessing />}
       <RestaurantInfo restaurant={restaurant} />
       <ScrollView>
         <Spacer position="left" size="medium">
@@ -58,14 +96,36 @@ export const CheckoutScreen = () => {
           }}
         />
         <Spacer position="top" size="large">
-          {name ? <CreditCardInput name={name} /> : <></>}
+          {name ? (
+            <CreditCardInput
+              name={name}
+              onSuccess={(card) => setCard(card)}
+              onError={() =>
+                navigation.navigate("CheckoutError", {
+                  error: "Something went wrong processing your credit cart",
+                })
+              }
+            />
+          ) : (
+            <></>
+          )}
         </Spacer>
         <Spacer position="top" size="xxl" />
-        <PayButton icon="cash-usd" mode="contained" onPress={}>
+        <PayButton
+          disabled={isLoading}
+          icon="cash-usd"
+          mode="contained"
+          onPress={onPay}
+        >
           Pay
         </PayButton>
         <Spacer position="top" size="large">
-          <ClearButton icon="cart-off" mode="contained" onPress={clearCart}>
+          <ClearButton
+            disabled={isLoading}
+            icon="cart-off"
+            mode="contained"
+            onPress={clearCart}
+          >
             ClearCart
           </ClearButton>
         </Spacer>

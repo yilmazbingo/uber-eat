@@ -1,10 +1,19 @@
 import React, { ReactElement } from "react";
 import styled, { DefaultTheme, useTheme } from "styled-components/native";
 
-enum Size {
-  small = 1,
-  medium = 2,
-  large = 3,
+interface SizeVariant {
+  small: 1;
+  medium: 2;
+  large: 3;
+  xl: 4;
+  xxl: 5;
+}
+
+interface PositionVariant {
+  top: "marginTop";
+  left: "marginLeft";
+  right: "marginRight";
+  bottom: "marginBottom";
 }
 
 const sizeVariant = {
@@ -15,7 +24,7 @@ const sizeVariant = {
   xxl: 5,
 };
 
-const positionVariant = {
+const positionVariant: PositionVariant = {
   top: "marginTop",
   left: "marginLeft",
   right: "marginRight",
@@ -23,7 +32,11 @@ const positionVariant = {
 };
 
 // this calculates the variants
-const getVariant = (position: string, size: Size, theme: DefaultTheme) => {
+const getVariant = (
+  position: keyof PositionVariant,
+  size: keyof SizeVariant,
+  theme: DefaultTheme
+) => {
   const sizeIndex = sizeVariant[size];
   const property = positionVariant[position];
   const value = theme.space[sizeIndex];
@@ -31,13 +44,16 @@ const getVariant = (position: string, size: Size, theme: DefaultTheme) => {
   return `${property}:${value}`;
 };
 
-const SpacerView = styled.View`
+interface SpacerViewProps {
+  variant: ReturnType<typeof getVariant>;
+}
+const SpacerView = styled.View<SpacerViewProps>`
   ${({ variant }) => variant}
 `;
 
 type SpacerProps = {
-  position: string;
-  size: Size;
+  position: keyof PositionVariant;
+  size: keyof SizeVariant;
   children: ReactElement;
 };
 export const Spacer = ({
@@ -49,19 +65,6 @@ export const Spacer = ({
   const variant = getVariant(position, size, theme);
   return <SpacerView variant={variant}>{children}</SpacerView>;
 };
-
-//this was cauisng bug in android. so we separated
-// export const Spacer = styled.View`
-//   ${({
-//     position,
-//     size,
-//     theme,
-//   }: {
-//     position: string;
-//     size: Size;
-//     theme: DefaultTheme;
-//   }) => getVariant(position, size, theme)}
-// `;
 
 Spacer.defaultProps = {
   position: "top",

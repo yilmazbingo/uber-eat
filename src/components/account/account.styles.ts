@@ -1,3 +1,4 @@
+import { DefaultTheme } from "styled-components/native";
 import styled from "styled-components/native";
 import { colors } from "@infrastructure/theme/colors";
 import { Button, TextInput } from "react-native-paper";
@@ -38,7 +39,10 @@ export const Title = styled(Text)`
   font-size: 30px;
 `;
 
-export const ErrorContainer = styled.View`
+interface ErrorContainerProps {
+  theme: DefaultTheme;
+}
+export const ErrorContainer = styled.View<ErrorContainerProps>`
   max-width: 300px;
   align-items: center;
   align-self: center;

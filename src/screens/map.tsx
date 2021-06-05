@@ -1,16 +1,27 @@
 import React, { useContext, useState, useEffect } from "react";
 import MapView, { Marker, Callout } from "react-native-maps";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { MapSearch } from "../components/map/map-search";
 import styled from "styled-components/native";
 import { RestaurantsContext } from "@services/restaurant/restaurant.context";
 import { LocationContext } from "@services/location/location.context";
 import { MapCallout } from "../components/map/map-callout";
+import { StackNavigatorParams } from "@infrastructure/navigation/app.navigator";
+import { StackNavigatorParams as RestaurantStackNavigatorParams } from "@infrastructure/navigation/restaurants.navigator";
+
 const Map = styled(MapView)`
   height: 100%;
   width: 100%;
 `;
 
-export const RestaurantMap = ({ navigation }) => {
+type RestaurantMapProps = {
+  navigation: StackNavigationProp<
+    RestaurantStackNavigatorParams,
+    "RestaurantDetail"
+  >;
+};
+
+export const RestaurantMap = ({ navigation }: RestaurantMapProps) => {
   const { location } = useContext(LocationContext);
   const { restaurants = [] } = useContext(RestaurantsContext);
   const [latDelta, setLatDelta] = useState(0);
@@ -21,8 +32,8 @@ export const RestaurantMap = ({ navigation }) => {
     const southwestLat = viewport.southwest.lat;
 
     const latDelta = northeastLat - southwestLat;
-    setLatDelta(latDelta, viewport);
-  }, [location]);
+    setLatDelta(latDelta);
+  }, [location, viewport]);
   return (
     <>
       <MapSearch />
@@ -60,7 +71,11 @@ export const RestaurantMap = ({ navigation }) => {
   );
 };
 
-export const MapScreen = ({navigation}) => {
+type MapScreenProps = {
+  navigation: StackNavigationProp<StackNavigatorParams, "Map">;
+};
+
+export const MapScreen = ({ navigation }: MapScreenProps) => {
   const { location } = useContext(LocationContext);
   if (!location) {
     return (
@@ -68,6 +83,8 @@ export const MapScreen = ({navigation}) => {
         region={{
           latitude: 0,
           longitude: 0,
+          latitudeDelta: 0,
+          longitudeDelta: 0.02,
         }}
       ></Map>
     );

@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { ActivityIndicator, Colors } from "react-native-paper";
-
+import { StackNavigationProp } from "@react-navigation/stack";
+import { StackNavigatorParams } from "@infrastructure/navigation/account.navigator";
 import {
   AccountBackground,
   AccountCover,
@@ -14,7 +15,11 @@ import { Spacer } from "@components/spacer";
 import { AuthenticationContext } from "@services/authentication/authentication.context";
 import { Text } from "@components/text";
 
-export const LoginScreen = ({ navigation }) => {
+type LoginScreenProps = {
+  navigation: StackNavigationProp<StackNavigatorParams, "Login">;
+};
+
+export const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { onLogin, error, isLoading } = useContext(AuthenticationContext);
@@ -22,7 +27,7 @@ export const LoginScreen = ({ navigation }) => {
   return (
     <AccountBackground>
       <AccountCover />
-      <Title> UberEats </Title>
+      <Title variant="label"> UberEats </Title>
       <AccountContainer>
         <AuthInput
           label="E-mail"

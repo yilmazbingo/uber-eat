@@ -6,7 +6,13 @@ import { AccountScreen } from "@screens/account/account";
 import { LoginScreen } from "@screens/account/login";
 import { RegisterScreen } from "@screens/account/register";
 
-const Stack = createStackNavigator();
+export type StackNavigatorParams = {
+  Main: undefined;
+  Login: undefined;
+  Register: undefined;
+};
+
+const Stack = createStackNavigator<StackNavigatorParams>();
 
 export const AccountNavigator = () => (
   <Stack.Navigator headerMode="none">

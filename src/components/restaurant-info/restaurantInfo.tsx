@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react";
-import { IRestaurantInfo } from "../../types/interfaces";
+import { IRestaurant } from "../../types/interfaces";
 import { SvgXml } from "react-native-svg";
-import star from "@assets/star";
-import open from "@assets/open";
+import star from "../../../assets/star";
+import open from "../../../assets/open";
 import { Spacer } from "../spacer";
 import { Text } from "../text";
 import { FavouriteIcon } from "../favorites/favorites-icon";
@@ -17,7 +17,7 @@ import {
   Address,
 } from "./styles";
 interface RestaurantInfoProps {
-  restaurant: IRestaurantInfo;
+  restaurant: IRestaurant;
 }
 
 export const RestaurantInfo = ({

@@ -7,9 +7,14 @@ import { SettingsScreen } from "@screens/settigs";
 import { FavouritesScreen } from "@screens/favourites";
 import { CameraScreen } from "@screens/camera";
 
-const SettingsStack = createStackNavigator();
+export type StackNavigatorParams = {
+  Settings: undefined;
+  Favourites: undefined;
+  Camera: undefined;
+};
+const SettingsStack = createStackNavigator<StackNavigatorParams>();
 
-export const SettingsNavigator = ({ route, navigation }) => {
+export const SettingsNavigator = () => {
   return (
     <SettingsStack.Navigator
       headerMode="screen"

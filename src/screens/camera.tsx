@@ -1,26 +1,34 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { Camera } from "expo-camera";
 import styled from "styled-components/native";
 import { View, TouchableOpacity } from "react-native";
 import { Text } from "@components/text";
 import { AuthenticationContext } from "@services/authentication/authentication.context";
+import { StackNavigatorParams } from "@infrastructure/navigation/settings.navigator";
 
 const ProfileCamera = styled(Camera)`
   width: 100%;
   height: 100%;
 `;
 
-export const CameraScreen = ({ navigation }) => {
-  const [hasPermission, setHasPermission] = useState(null);
-  const cameraRef = useRef();
+type CameraScreenProps = {
+  navigation: StackNavigationProp<StackNavigatorParams>;
+};
+
+export const CameraScreen = ({ navigation }: CameraScreenProps) => {
+  const [hasPermission, setHasPermission] = useState(false);
+  const cameraRef = useRef<Camera | null>(null);
   const { user } = useContext(AuthenticationContext);
 
   const snap = async () => {
     if (cameraRef) {
-      const photo = await cameraRef.current.takePictureAsync();
-      AsyncStorage.setItem(`${user?.uid}-photo`, photo.uri);
-      navigation.goBack();
+      if (cameraRef.current) {
+        const photo = await cameraRef.current.takePictureAsync();
+        AsyncStorage.setItem(`${user?.uid}-photo`, photo.uri);
+        navigation.goBack();
+      }
     }
   };
 
@@ -40,7 +48,9 @@ export const CameraScreen = ({ navigation }) => {
   return (
     <TouchableOpacity onPress={snap}>
       <ProfileCamera
-        ref={(camera) => (cameraRef.current = camera)}
+        ref={(camera) =>
+          cameraRef.current ? (cameraRef.current = camera) : null
+        }
         type={Camera.Constants.Type.front}
       />
     </TouchableOpacity>

@@ -26,7 +26,7 @@ const Item = styled.View`
 
 type CompactRestaurantInfoProps = {
   restaurant: any;
-  isMap: boolean;
+  isMap?: boolean;
 };
 
 export const CompactRestaurantInfo = ({

@@ -41,11 +41,35 @@ const variants = {
   hint,
 };
 
-export const Text = styled.Text`
+// interface Variants {
+//   body: string;
+//   label: string;
+//   caption: string;
+//   error: string;
+//   hint: string;
+// }
+
+// enum Variants {
+//   body = "body",
+//   label = "label",
+//   caption = "caption",
+//   error = "error",
+//   hint = "hint",
+// }
+
+type Variants = "body" | "label" | "caption" | "error" | "hint";
+
+interface TextProps {
+  theme?: DefaultTheme;
+  // variant?: Omit<keyof Variants, undefined>;
+  variant?: Variants;
+}
+
+export const Text = styled.Text<TextProps>`
   ${({ theme }) => defaultTextStyles(theme)}
-  ${({ variant, theme }) => variants[variant](theme)}
+  ${({ variant, theme }) => variants[variant ?? "body"](theme)}
 `;
 
 Text.defaultProps = {
   variant: "body",
-};
+} as Pick<TextProps, "variant">;
