@@ -4,6 +4,7 @@ type Coordinate = {
 };
 
 export interface IRestaurant {
+  address: string;
   business_status: string;
   geometry: {
     location: Coordinate;
@@ -11,7 +12,8 @@ export interface IRestaurant {
   };
   icon: string;
   name: string;
-  opening_hours: { open_now: boolean };
+  // this got camelized
+  openingHours: { open_now: boolean };
   photos: string[];
   placeId: string;
   rating: number;
@@ -19,6 +21,8 @@ export interface IRestaurant {
   types: string[];
   user_ratings_total: number;
   vicinity: string;
+  isClosedTemporarily: boolean;
+  isOpenNow: boolean;
 }
 
 type AddressComponent = {
@@ -44,11 +48,20 @@ export interface IPlace {
   status: string;
 }
 
-// export interface User {
-//   apiKey: string;
-//   email: string;
-//   uid: string;
-//   refreshToken: string;
-//   accessToken: string;
-//   emailVerified: boolean;
-// }
+export interface ICard {
+  card: {
+    address_city: string | null;
+    address_country: string | null;
+    address_line1: string | null;
+    address_state: string | null;
+    address_zip: string | null;
+    brand: string;
+    country: string;
+  };
+  client_ip: string;
+  created: Date;
+  id: string;
+  livemode: boolean;
+  type: string;
+  used: boolean;
+}

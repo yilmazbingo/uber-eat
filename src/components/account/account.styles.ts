@@ -41,6 +41,7 @@ export const Title = styled(Text)`
 
 interface ErrorContainerProps {
   theme: DefaultTheme;
+  size?: string;
 }
 export const ErrorContainer = styled.View<ErrorContainerProps>`
   max-width: 300px;

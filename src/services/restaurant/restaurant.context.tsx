@@ -9,7 +9,6 @@ import React, {
 } from "react";
 import { restaurantsRequest, restaurantsTransform } from "./restaurant.service";
 import { IRestaurant } from "../../types/interfaces";
-import { Coordinates } from "./restaurant.service";
 import { locationTransform } from "@services/location/location.service";
 
 const defaultState = {

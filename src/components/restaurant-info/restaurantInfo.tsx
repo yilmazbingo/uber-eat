@@ -36,6 +36,8 @@ export const RestaurantInfo = ({
     placeId,
   } = restaurant;
 
+  // console.log("restaurnat", restaurant);
+
   const ratingArray = Array.from(new Array(Math.floor(rating)));
   return (
     <RestaurantCard elevation={5}>
@@ -59,7 +61,7 @@ export const RestaurantInfo = ({
               <Text variant="error">CLOSED TEMPORARILY</Text>
             )}
             <Spacer position="left" size="large">
-              {isOpenNow && <SvgXml xml={open} width={20} height={20} />}
+              {isOpenNow ? <SvgXml xml={open} width={20} height={20} /> : <></>}
             </Spacer>
             <Spacer position="left" size="large">
               <Icon source={{ uri: icon }} />

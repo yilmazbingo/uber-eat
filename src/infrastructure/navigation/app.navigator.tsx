@@ -1,6 +1,7 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+import { RouteProp } from "@react-navigation/native";
 import { RestaurantsNavigator } from "./restaurants.navigator";
 import { MapScreen } from "@screens/map";
 import { CheckoutNavigator } from "./checkout.navigator";
@@ -9,6 +10,9 @@ import { RestaurantsContextProvider } from "@services/restaurant/restaurant.cont
 import { LocationContextProvider } from "@services/location/location.context";
 import { FavouritesContextProvider } from "@services/favourites/favourites.context";
 import { CartContextProvider } from "@services/cart/cart.context";
+import { StackNavigatorParams as RestaurantStackNavigatorParams } from "./restaurants.navigator";
+import { StackNavigatorParams as SettingsStackNavigatorParams } from "./settings.navigator";
+import { StackNavigatorParams as CheckoutStackNavigatorParams } from "./checkout.navigator";
 
 export type StackNavigatorParams = {
   Restaurants: undefined;
@@ -28,7 +32,15 @@ const TAB_ICON: Record<Keys, Values> = {
   Settings: "md-settings",
 };
 
-const createScreenOptions = ({ route }) => {
+type NavigatorParams =
+  | RestaurantStackNavigatorParams
+  | SettingsStackNavigatorParams
+  | CheckoutStackNavigatorParams;
+const createScreenOptions = ({
+  route,
+}: {
+  route: RouteProp<StackNavigatorParams, Keys>;
+}) => {
   const iconName = TAB_ICON[route.name];
   return {
     tabBarIcon: ({ size, color }: { size: number; color: string }) => (

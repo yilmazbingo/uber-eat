@@ -25,9 +25,8 @@ const defaultState = {
   onRegister: () => null,
   onLogout: () => null,
 };
-export const AuthenticationContext = createContext<AuthenticationContext>(
-  defaultState
-);
+export const AuthenticationContext =
+  createContext<AuthenticationContext>(defaultState);
 
 type AuthenticationContextProviderProps = {
   children: ReactElement;
@@ -55,7 +54,7 @@ export const AuthenticationContextProvider = ({
     loginRequest(email, password)
       .then((user) => {
         console.log("user", user);
-        setUser(user);
+        setUser(user.user);
         setIsLoading(false);
       })
       .catch((error) => {

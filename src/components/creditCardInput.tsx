@@ -1,6 +1,7 @@
 import React from "react";
 import { LiteCreditCardInput } from "react-native-credit-card-input";
 import { cardTokenRequest } from "@services/checkout/checkout.service";
+import { ICard } from "../types/interfaces";
 
 interface IFormData {
   status: { cvc: string; expiry: string; number: string };
@@ -10,7 +11,7 @@ interface IFormData {
 
 type CreditCardInputProps = {
   name: string;
-  onSuccess: (info: string) => void;
+  onSuccess: (info: ICard) => void;
   onError: () => void;
 };
 export const CreditCardInput = ({
@@ -33,6 +34,7 @@ export const CreditCardInput = ({
     };
     // console.log("stripe values", values);
     const info = await cardTokenRequest(card);
+    console.log("infooo", info);
     if (!isIncomplete) {
       try {
         onSuccess(info);

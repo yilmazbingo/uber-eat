@@ -16,7 +16,7 @@ interface PositionVariant {
   bottom: "marginBottom";
 }
 
-const sizeVariant = {
+const sizeVariant: SizeVariant = {
   small: 1,
   medium: 2,
   large: 3,
@@ -54,19 +54,17 @@ const SpacerView = styled.View<SpacerViewProps>`
 type SpacerProps = {
   position: keyof PositionVariant;
   size: keyof SizeVariant;
-  children: ReactElement;
+  children: JSX.Element | JSX.Element[];
 };
-export const Spacer = ({
-  position,
-  size,
-  children,
-}: SpacerProps): ReactElement => {
+export const Spacer = ({ position, size, children }: SpacerProps) => {
   const theme = useTheme();
-  const variant = getVariant(position, size, theme);
+  const variant =
+    getVariant(position, size, theme) || getVariant("top", "small", theme);
   return <SpacerView variant={variant}>{children}</SpacerView>;
 };
 
+// this has issue in typescript
 Spacer.defaultProps = {
   position: "top",
   size: "small",
-};
+} as Partial<SpacerProps>;

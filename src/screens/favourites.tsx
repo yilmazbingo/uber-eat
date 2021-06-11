@@ -41,7 +41,7 @@ export const FavouritesScreen = ({ navigation }: FavouritesScreenProps) => {
     </SafeArea>
   ) : (
     <NoFavouritesArea>
-      <Text center> You have not chosen any favourite yet </Text>
+      <Text> You have not chosen any favourite yet </Text>
     </NoFavouritesArea>
   );
 };

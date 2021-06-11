@@ -15,7 +15,7 @@ export const CartIconContainer = styled.View`
 `;
 
 interface CartIconProps {
-  bg: string;
+  bg?: string;
 }
 
 export const CartIcon = styled(Avatar.Icon).attrs({

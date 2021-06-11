@@ -7,13 +7,13 @@ import { List, Avatar } from "react-native-paper";
 import { TouchableOpacity } from "react-native";
 import { AuthenticationContext } from "@services/authentication/authentication.context";
 import { SafeArea } from "@components/safe-area";
-import { Navigation } from "@infrastructure/navigation";
 import { Text } from "@components/text";
 import { Spacer } from "@components/spacer";
 import { StackNavigationProp } from "@react-navigation/stack";
 
-import { StackNavigatorParams } from "@infrastructure/navigation/account.navigator";
-
+// import { StackNavigatorParams as AccountStackNavigatorParams } from "@infrastructure/navigation/account.navigator";
+// import { StackNavigatorParams as RestaurantStackNavigatorParams } from "@infrastructure/navigation/restaurants.navigator";
+import { StackNavigatorParams } from "@infrastructure/navigation/settings.navigator";
 const SettingsItem = styled(List.Item)`
   padding: ${(props) => props.theme.space[3]};
 `;
@@ -21,15 +21,18 @@ const AvatarContainer = styled.View`
   align-items: center;
 `;
 
-type SettingsProps = {
-  navigation: StackNavigationProp<StackNavigatorParams, "Logout">;
-};
-
-export const SettingsScreen = ({ navigation }: SettingsProps) => {
+export const SettingsScreen = ({
+  navigation,
+}: {
+  navigation: StackNavigationProp<
+    StackNavigatorParams,
+    "Camera" | "Favourites"
+  >;
+}) => {
   const { onLogout, user } = useContext(AuthenticationContext);
   const [photo, setPhoto] = useState<string | null>(null);
   const getProfilePicture = async (currentUser: firebase.User) => {
-    console.log("Currentuser", currentUser);
+    // console.log("Currentuser", currentUser);
     const photoUri = await AsyncStorage.getItem(`${currentUser?.uid}-photo`);
     setPhoto(photoUri);
   };
@@ -74,7 +77,7 @@ export const SettingsScreen = ({ navigation }: SettingsProps) => {
         <SettingsItem
           title="Logout"
           left={(props) => <List.Icon {...props} color="black" icon="door" />}
-          onPress={() => navigation.navigate("Logout")}
+          onPress={onLogout}
         />
       </List.Section>
     </SafeArea>

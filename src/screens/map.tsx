@@ -23,9 +23,10 @@ type RestaurantMapProps = {
 
 export const RestaurantMap = ({ navigation }: RestaurantMapProps) => {
   const { location } = useContext(LocationContext);
+  // console.log("locationnn", location);
   const { restaurants = [] } = useContext(RestaurantsContext);
   const [latDelta, setLatDelta] = useState(0);
-  const { viewport, lat, lng } = location;
+  const { viewport, lat, lng } = location!;
 
   useEffect(() => {
     const northeastLat = viewport.northeast.lat;
@@ -72,7 +73,11 @@ export const RestaurantMap = ({ navigation }: RestaurantMapProps) => {
 };
 
 type MapScreenProps = {
-  navigation: StackNavigationProp<StackNavigatorParams, "Map">;
+  // navigation: StackNavigationProp<StackNavigatorParams, "Map">;
+  navigation: StackNavigationProp<
+    RestaurantStackNavigatorParams,
+    "RestaurantDetail"
+  >;
 };
 
 export const MapScreen = ({ navigation }: MapScreenProps) => {

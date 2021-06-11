@@ -1,4 +1,4 @@
-import camelize from "camelize-ts";
+import camelize from "camelize";
 // import { host } from "@utils/env";
 import { host, isMock } from "../../utils/env";
 import { IRestaurant } from "../../types/interfaces";
@@ -25,12 +25,13 @@ export const restaurantsTransform = ({
     return {
       ...restaurant,
       address: restaurant.vicinity,
-      isOpenNow: restaurant.opening_hours && restaurant.opening_hours.open_now,
+      // opening_hours got camelized
+      isOpenNow: restaurant.openingHours && restaurant.openingHours.open_now,
       isClosedTemporarily: restaurant.business_status === "CLOSED_TEMPORARILY",
     };
   });
   // console.log("mappedRes", mappedResults);
   const camelizedResults = camelize(mappedResults);
-  console.log("camelizedResults", camelizedResults);
+  // console.log("camelizedResults", camelizedResults);
   return camelizedResults;
 };

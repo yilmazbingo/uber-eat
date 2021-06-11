@@ -20,6 +20,7 @@ export const payRequest = (
       confirm: true,
     })
     .then((paymentIntent) => {
+      console.log("paymentIntent", paymentIntent);
       response.json(paymentIntent);
     })
     .catch((error) => {

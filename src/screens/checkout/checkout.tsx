@@ -16,8 +16,9 @@ import {
 } from "@components/checkout.styles";
 import { CartContext } from "@services/cart/cart.context";
 import { RestaurantInfo } from "@components/restaurant-info/restaurantInfo";
-import { payRequest, ICard } from "@services/checkout/checkout.service";
+import { payRequest } from "@services/checkout/checkout.service";
 import { StackNavigatorParams } from "@infrastructure/navigation/checkout.navigator";
+import { ICard } from "../../types/interfaces";
 
 type CheckoutScreenProps = {
   navigation: StackNavigationProp<
@@ -32,6 +33,8 @@ export const CheckoutScreen = ({ navigation }: CheckoutScreenProps) => {
   const [name, setName] = useState("");
   const [card, setCard] = useState<ICard | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  // console.log("Cardd in screen", card);
   const onPay = () => {
     setIsLoading(true);
     if (!card || !card.id) {
@@ -43,8 +46,7 @@ export const CheckoutScreen = ({ navigation }: CheckoutScreenProps) => {
     }
     payRequest(card.id, sum, name)
       .then((result) => {
-        // console.log("Cardddd", card);
-        // console.log("resulttttt", result);
+        // console.log("card.id in request", card.id);
         setIsLoading(false);
         clearCart();
         navigation.navigate("CheckoutSuccess");
@@ -79,7 +81,7 @@ export const CheckoutScreen = ({ navigation }: CheckoutScreenProps) => {
           </Spacer>
           <List.Section>
             {cart.map(({ item, price }) => {
-              return <List.Item title={` ${item}-${price / 100}`} />;
+              return <List.Item title={`${item} - ${price / 100}`} />;
             })}
           </List.Section>
           <Text>Total: {sum / 100}</Text>
@@ -91,7 +93,7 @@ export const CheckoutScreen = ({ navigation }: CheckoutScreenProps) => {
             if (t.length) {
               setName(t);
             } else {
-              setName(null);
+              setName("");
             }
           }}
         />
@@ -99,7 +101,7 @@ export const CheckoutScreen = ({ navigation }: CheckoutScreenProps) => {
           {name ? (
             <CreditCardInput
               name={name}
-              onSuccess={(card) => setCard(card)}
+              onSuccess={setCard}
               onError={() =>
                 navigation.navigate("CheckoutError", {
                   error: "Something went wrong processing your credit cart",

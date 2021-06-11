@@ -1,8 +1,10 @@
 import React, { ReactElement } from "react";
 import styled from "styled-components/native";
 import { ScrollView, TouchableOpacity } from "react-native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { CompactRestaurantInfo } from "@components/restaurant-info/compact-restaurant-info";
 import { Spacer } from "@components/spacer";
+import { StackNavigatorParams } from "@infrastructure/navigation/restaurants.navigator";
 import { Text } from "@components/text";
 const FavouritesWrapper = styled.View`
   padding: 10px;
@@ -10,7 +12,10 @@ const FavouritesWrapper = styled.View`
 
 type FavouritesBarProps = {
   favourites: any[];
-  onNavigate(): void;
+  onNavigate: (
+    routeName: string,
+    restaurant: StackNavigatorParams["RestaurantDetail"]
+  ) => void;
   // navigation: StackNavigationProp<StackNavigatorParams, "Restaurants">;
 };
 export const FavouritesBar = ({
@@ -22,7 +27,7 @@ export const FavouritesBar = ({
   }
   return (
     <FavouritesWrapper>
-      <Spacer variant="left.large">
+      <Spacer size="large" position="left">
         <Text variant="caption"> Favourites </Text>
       </Spacer>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>

@@ -1,13 +1,25 @@
 import React, { useState, useContext } from "react";
 import { List } from "react-native-paper";
 import { ScrollView } from "react-native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RouteProp } from "@react-navigation/native";
 import { RestaurantInfo } from "@components/restaurant-info/restaurantInfo";
 import { Spacer } from "@components/spacer";
 import { OrderButton } from "@components/restaurant-info/restatuant-list.styles";
 import { SafeArea } from "@components/safe-area";
 import { CartContext } from "@services/cart/cart.context";
+import { StackNavigatorParams } from "@infrastructure/navigation/checkout.navigator";
+import { StackNavigatorParams as RestaurantParams } from "@infrastructure/navigation/restaurants.navigator";
 
-export const RestaurantDetailScreen = ({ route, navigation }) => {
+type RestaurantDetailProps = {
+  navigation: StackNavigationProp<StackNavigatorParams, "Checkout">;
+  route: RouteProp<RestaurantParams, "RestaurantDetail">;
+};
+
+export const RestaurantDetailScreen = ({
+  route,
+  navigation,
+}: RestaurantDetailProps) => {
   const [breakfastExpanded, setBreakfastExpanded] = useState(false);
   const [lunchExpanded, setLunchExpanded] = useState(false);
   const [dinnerExpanded, setDinnerExpanded] = useState(false);

@@ -3,7 +3,7 @@ import * as functions from "firebase-functions";
 import { mocks, addMockImage } from "./mock";
 
 const addGoogleImage = (restaurant: any) => {
-  console.log("restaurnat", restaurant);
+  // console.log("restaurnat", restaurant);
   const ref = restaurant.photos[0].photo_reference;
   if (!ref) {
     restaurant.photos = [

@@ -5,7 +5,7 @@ import { stripeClientKey } from "../../../config";
 
 const stripe = createStripe(stripeClientKey);
 
-export interface ICard {
+export interface ICardInfo {
   cvc: string;
   exp_month: string;
   exp_year: string;
@@ -13,9 +13,9 @@ export interface ICard {
   number: string;
 }
 
-export const cardTokenRequest = (card: ICard) => {
-  // console.log("carddddddddd", card);
-  stripe.createToken({ card });
+export const cardTokenRequest = (card: ICardInfo): string => {
+  // console.log("carddddddddddd", card);
+  return stripe.createToken({ card });
 };
 
 export const payRequest = (token: string, amount: number, name: string) => {
