@@ -1,6 +1,8 @@
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
-import * as firebase from "firebase";
+// import * as firebase from "firebase";
+import { initializeApp } from "firebase/app";
+
 import { ThemeProvider } from "styled-components/native";
 import {
   useFonts as useOswald,
@@ -14,9 +16,11 @@ import { Navigation } from "./src/infrastructure/navigation";
 import { firebaseConfig } from "./config";
 
 // otherwise we cannot hot load with react-native if we are using javascript sdk.
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+// if (!firebase.apps.length) {
+//   firebase.initializeApp(firebaseConfig);
+// }
+const app = initializeApp(firebaseConfig);
+
 export default function App() {
   // const [isAuthenticated, setIsAuthenticated] = useState(false);
   // useEffect(() => {

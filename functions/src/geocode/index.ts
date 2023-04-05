@@ -29,8 +29,9 @@ export const geocodeRequest = (
     .then((res) => {
       return response.json(res.data);
     })
-    .catch((error) => {
+    .catch((error: any) => {
       response.status(400);
+      console.log("Error in location function", error);
       response.send(error.response.data.error_message);
     });
 };

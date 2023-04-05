@@ -4,7 +4,7 @@ import {
   TextInput,
   Button,
   ActivityIndicator,
-  Colors,
+  // Colors,
 } from "react-native-paper";
 import { colors } from "@infrastructure/theme/colors";
 
@@ -47,7 +47,7 @@ export const ClearButton = styled(Button).attrs({
 export const PaymentProcessing = styled(ActivityIndicator).attrs({
   size: 128,
   animating: true,
-  color: Colors.blue300,
+  // color: Colors.blue300,
 })`
   position: absolute;
   top: 50%;

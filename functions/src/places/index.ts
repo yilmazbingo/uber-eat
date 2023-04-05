@@ -49,8 +49,9 @@ export const placesRequest = (
       res.data.results = res.data.results.map(addGoogleImage);
       return response.json(res.data);
     })
-    .catch((error) => {
+    .catch((error: any) => {
       response.status(400);
+      console.log("error in location firebase function", error);
       return response.send(error.response.data.error_message);
     });
 };

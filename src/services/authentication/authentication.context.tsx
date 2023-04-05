@@ -1,5 +1,11 @@
 import React, { useState, createContext, ReactElement } from "react";
-import * as firebase from "firebase";
+import {
+  Auth,
+  User,
+  getAuth,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+import firebase from "firebase/compat/app";
 import { loginRequest } from "./authentication.service";
 
 type AuthenticationContext = {
@@ -35,10 +41,11 @@ export const AuthenticationContextProvider = ({
   children,
 }: AuthenticationContextProviderProps): ReactElement => {
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState<firebase.User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<any>(null);
+  const auth = getAuth();
 
-  firebase.auth().onAuthStateChanged((user) => {
+  auth.onAuthStateChanged((user) => {
     if (user) {
       setUser(user);
       setIsLoading(false);
@@ -48,12 +55,9 @@ export const AuthenticationContextProvider = ({
   });
 
   const onLogin = (email: string, password: string) => {
-    console.log("clicked to login");
     setIsLoading(true);
-
     loginRequest(email, password)
       .then((user) => {
-        console.log("user", user);
         setUser(user.user);
         setIsLoading(false);
       })
@@ -73,9 +77,9 @@ export const AuthenticationContextProvider = ({
       setError("Passwords do not match");
       return;
     }
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
+
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password)
       .then((user) => {
         setUser(user.user);
         setIsLoading(false);

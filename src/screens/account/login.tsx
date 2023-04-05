@@ -54,7 +54,8 @@ export const LoginScreen = ({ navigation }: LoginScreenProps) => {
           </ErrorContainer>
         )}
         {isLoading ? (
-          <ActivityIndicator color={Colors.blue300} animating={true} />
+          // <ActivityIndicator color={Colors.blue300} animating={true} />
+          <ActivityIndicator color="blue" animating={true} />
         ) : (
           <Spacer size="large">
             <AuthButton

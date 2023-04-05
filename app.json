@@ -2,7 +2,7 @@
   "expo": {
     "name": "restaurant",
     "slug": "restaurant",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/delivery.png",
     "splash": {
@@ -18,10 +18,13 @@
       "supportsTablet": true
     },
     "android": {
+      "permissions": ["CAMERA", "CAMERA_ROLL"],
+
       "adaptiveIcon": {
         "foregroundImage": "./assets/delivery.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.yilmazito.restaurant"
     },
     "web": {
       "favicon": "./assets/delivery.png"

@@ -1,7 +1,9 @@
+```js
 sudo npm install -g firebase-tools
 npm install firebase-functions@latest firebase-admin@latest --save
 firebase login
 firebase init functions
+```
 
 - we are going to install dependenceies ourselves
 - /functions/package.json update "engine" version

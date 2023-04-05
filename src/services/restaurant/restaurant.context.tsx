@@ -37,7 +37,6 @@ export const RestaurantsContextProvider = ({
 
   // stringifying lat and long
   const retrieveRestaurants = (loc: string) => {
-    console.log(typeof loc);
     setIsLoading(true);
     setRestaurants([]);
     restaurantsRequest(loc)

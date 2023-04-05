@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { ActivityIndicator, Colors } from "react-native-paper";
+import { ActivityIndicator } from "react-native-paper";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackNavigatorParams } from "@infrastructure/navigation/account.navigator";
 import {
@@ -74,7 +74,8 @@ export const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
           {isLoading ? (
             <ActivityIndicator
               animating={true}
-              color={Colors.blue300}
+              // color={Colors.blue300}
+              color="blue"
             ></ActivityIndicator>
           ) : (
             <AuthButton

@@ -48,7 +48,8 @@ export const RestaurantsScreen = ({ navigation }: RestaurantScreenProps) => {
     <SafeArea>
       {isLoading && (
         <LoadingContainer>
-          <Loading size={50} animating={true} color={Colors.blue300} />
+          {/* <Loading size={50} animating={true} color={Colors.blue300} /> */}
+          <Loading size={50} animating={true} color="blue" />
         </LoadingContainer>
       )}
       <Search
@@ -66,7 +67,6 @@ export const RestaurantsScreen = ({ navigation }: RestaurantScreenProps) => {
           <Text variant="error">Something went wrong</Text>
         </Spacer>
       )}
-
       {!hasError && (
         <RestaurantList
           data={restaurants}
